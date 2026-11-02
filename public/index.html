@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeInsight – Multi-Language Static Code Analysis & Diagnostic Platform</title>
+  <meta name="description" content="Enterprise-grade static code analysis, real-time security auditing, reviewable automated code remediation, and RBAC governance.">
+
+  <!-- Google Fonts: JetBrains Mono, Outfit, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563EB'><polygon points='5 3 19 12 5 21 5 3'/></svg>">
+
+  <!-- JSZip for Client-side Project/ZIP Extraction -->
+</head>
+<body>
+
+  <!-- Ambient Background Glows -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="app-shell">
+
+    <!-- Persistent Left Sidebar -->
+    <aside class="app-sidebar" id="appSidebar">
+      <!-- Brand Logo / Title -->
+      <div class="sidebar-brand">
+        <div class="brand-logo">&lt;/&gt;</div>
+        <div class="brand-text">
+          <div class="brand-title">CodeInsight <span class="badge-v">v2.5</span></div>
+          <div class="brand-sub">Static Code Analysis Platform</div>
+        </div>
+        <button class="sidebar-close-btn" id="btnCloseSidebar" title="Close Sidebar" aria-label="Close Sidebar">✕</button>
+      </div>
+
+      <!-- User Navigation Section -->
+      <div class="sidebar-section" id="userNavSection">
+        <div class="sidebar-heading">USER WORKSPACE</div>
+        <nav class="sidebar-nav" aria-label="User Navigation">
+          <button class="sidebar-nav-btn active" data-tab="user-dashboard" id="sideBtnDashboard">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>User Dashboard</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="analyzer" id="sideBtnAnalyzer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>Code Analyzer</span>
+            <span class="sidebar-pill">Engine</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="results" id="sideBtnResults">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            <span>Analysis Results</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="security-scanner" id="sideBtnSecurity">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span>Security Scanner</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="suggestions" id="sideBtnSuggestions">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            <span>Code Suggestions</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="languages" id="sideBtnLanguages">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <span>Language Support</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="history" id="sideBtnHistory">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Analysis History</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="user-profile" id="sideBtnProfile">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>User Profile</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="user-settings" id="sideBtnSettings">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>User Settings</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="about" id="sideBtnAbout">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>About / Help</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Admin Navigation Section (Visible only to authorized Administrators) -->
+      <div class="sidebar-section" id="adminNavSection" style="display:none;">
+        <div class="sidebar-heading" style="color:var(--purple-accent);">ADMIN CONSOLE (RBAC)</div>
+        <nav class="sidebar-nav" aria-label="Admin Navigation">
+          <button class="sidebar-nav-btn" data-tab="admin-dashboard" id="sideBtnAdminDashboard">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+            <span>Admin Dashboard</span>
+            <span class="sidebar-pill pill-admin">Admin</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="admin-users" id="sideBtnAdminUsers">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>User Management</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="admin-logs" id="sideBtnAdminLogs">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>Analysis Logs</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="admin-reports" id="sideBtnAdminReports">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            <span>Reports &amp; Analytics</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="admin-settings" id="sideBtnAdminSettings">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            <span>System Settings</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="admin-profile" id="sideBtnAdminProfile">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Admin Profile</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Common Auth Navigation (Visible when logged out) -->
+      <div class="sidebar-section" id="authNavSection">
+        <div class="sidebar-heading">ACCOUNT ACCESS</div>
+        <nav class="sidebar-nav" aria-label="Account Navigation">
+          <button class="sidebar-nav-btn" data-tab="login" id="sideBtnLogin">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            <span>Sign In</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="register" id="sideBtnRegister">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+            <span>Create Account</span>
+          </button>
+          <button class="sidebar-nav-btn" data-tab="forgot-password" id="sideBtnForgot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>Forgot Password</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Quick Language Selectors -->
+      <div class="sidebar-section">
+        <div class="sidebar-heading">LANGUAGES</div>
+        <div class="sidebar-lang-pills">
+          <button class="lang-pill active" data-lang="javascript" title="JavaScript (ES6+) Engine">JS</button>
+          <button class="lang-pill" data-lang="python" title="Python 3 Static Engine">PY</button>
+          <button class="lang-pill" data-lang="typescript" title="TypeScript Strict Type Engine">TS</button>
+          <button class="lang-pill" data-lang="html" title="HTML5 &amp; Accessibility">HTML</button>
+          <button class="lang-pill" data-lang="css" title="CSS3 Specificity">CSS</button>
+          <button class="lang-pill" data-lang="java" title="Java Security Engine">JAVA</button>
+          <button class="lang-pill" data-lang="c_cpp" title="C/C++ Memory Safety">C++</button>
+        </div>
+      </div>
+
+      <!-- User Session Card & Status -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card" id="sidebarUserCard" title="View Account Profile">
+          <div class="sidebar-user-avatar" id="sideUserAvatar">GU</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sideUserName">Guest User</div>
+            <div class="sidebar-user-role" id="sideUserRole">USER</div>
+          </div>
+          <button class="btn-icon-xs" id="btnSideLogout" title="Sign Out" style="display:none; color:var(--danger);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </button>
+        </div>
+
+        <div class="sidebar-footer-controls">
+          <div class="sys-badge">
+            <span class="sys-pulse"></span>
+            <span>Platform Active</span>
+          </div>
+          <button class="btn-icon-xs" id="btnSideThemeToggle" title="Toggle Light/Dark Theme">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Workspace Area -->
+    <main class="app-main">
+      <!-- Modern Topbar Header -->
+      <header class="app-topbar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="btn-sidebar-toggle" id="btnToggleSidebar" title="Toggle Navigation Sidebar" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <div class="topbar-breadcrumbs">
+            <span class="crumb-root">CodeInsight</span>
+            <span class="crumb-sep">/</span>
+            <span class="crumb-active" id="topbarCurrentTab">User Dashboard</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Launch Code Analyzer Primary Action -->
+          <button class="btn btn-primary btn-sm" id="btnTopLaunchAnalyzer">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>Code Analyzer</span>
+          </button>
+
+          <!-- Direct Sign In button when logged out -->
+          <button class="btn btn-secondary btn-sm" id="btnNavLogin">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+            <span>Sign In</span>
+          </button>
+
+          <!-- Direct Register button when logged out -->
+          <button class="btn btn-ghost btn-sm" id="btnNavRegister">
+            <span>Register</span>
+          </button>
+
+          <!-- Logged In User Pill -->
+          <div class="user-chip" id="userChip" title="Click to view Account / Profile" style="display:none;">
+            <span id="userNameDisplay">User</span>
+            <span class="role-pill role-user" id="userRoleDisplay">USER</span>
+          </div>
+
+          <!-- Direct Sign Out Button -->
+          <button class="btn btn-secondary btn-sm" id="btnNavLogout" title="Sign Out of Session" style="display:none; color:var(--danger); border-color:rgba(239, 68, 68, 0.35);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Sign Out</span>
+          </button>
+
+          <button class="btn-icon" id="btnThemeToggle" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Page Message / Alert Banner -->
+      <div id="pageAlertBox" class="page-alert" style="display:none;">
+        <span id="pageAlertIcon"></span>
+        <span id="pageAlertMessage"></span>
+      </div>
+
+      <!-- =====================================================================
+           VIEW 1: LOGIN PAGE
+           ===================================================================== -->
+      <section class="tab-content" id="tab-login">
+        <div class="auth-page-container">
+          <div class="card auth-card">
+            <div class="auth-header">
+              <div class="brand-logo" style="width:48px; height:48px; margin:0 auto 12px; font-size:1.4rem;">&lt;/&gt;</div>
+              <h2>Sign In to CodeInsight</h2>
+              <p>Enter your credentials to access static code analysis, security auditing, and diagnostics.</p>
+            </div>
+
+            <form id="formLogin" class="form-grid">
+              <div class="form-group">
+                <label for="loginIdentifier">Email or Username</label>
+                <input type="text" id="loginIdentifier" class="form-input" placeholder="Enter username or email" required autocomplete="username" value="">
+              </div>
+
+              <div class="form-group">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <label for="loginPassword">Password</label>
+                  <a href="#forgot-password" class="auth-link" id="linkGoForgot">Forgot Password?</a>
+                </div>
+                <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              </div>
+
+              <div id="loginFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnLoginSubmit">
+                <span>Sign In</span>
+              </button>
+            </form>
+
+            <div class="auth-footer">
+              <p>Don't have an account? <a href="#register" class="auth-link" id="linkGoRegister">Create Account</a></p>
+              <div class="auth-demo-hint">
+                <strong>Demo Accounts:</strong><br>
+                <div class="auth-demo-account"><span>Administrator</span><code>admin / admin123</code><button type="button" class="btn btn-secondary btn-sm" data-demo-username="admin" data-demo-password="admin123">Use Admin</button></div>
+                <div class="auth-demo-account"><span>Developer</span><code>developer / dev123</code><button type="button" class="btn btn-secondary btn-sm" data-demo-username="developer" data-demo-password="dev123">Use Developer</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 2: REGISTRATION PAGE
+           ===================================================================== -->
+      <section class="tab-content" id="tab-register">
+        <div class="auth-page-container">
+          <div class="card auth-card">
+            <div class="auth-header">
+              <div class="brand-logo" style="width:48px; height:48px; margin:0 auto 12px; font-size:1.4rem;">&lt;/&gt;</div>
+              <h2>Create Your Account</h2>
+              <p>Join the CodeInsight platform for automated code quality and security reviews.</p>
+            </div>
+
+            <form id="formRegister" class="form-grid">
+              <div class="form-group">
+                <label for="regFullName">Full Name</label>
+                <input type="text" id="regFullName" class="form-input" placeholder="Jane Doe" required>
+              </div>
+
+              <div class="form-group">
+                <label for="regEmail">Email Address</label>
+                <input type="email" id="regEmail" class="form-input" placeholder="jane@example.com" required autocomplete="email">
+              </div>
+
+              <div class="form-group">
+                <label for="regPassword">Password (Min. 6 characters)</label>
+                <input type="password" id="regPassword" class="form-input" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+              </div>
+
+              <div class="form-group">
+                <label for="regConfirmPassword">Confirm Password</label>
+                <input type="password" id="regConfirmPassword" class="form-input" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+              </div>
+
+              <div id="registerFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnRegisterSubmit">
+                <span>Create Account</span>
+              </button>
+            </form>
+
+            <div class="auth-footer">
+              <p>Already have an account? <a href="#login" class="auth-link" id="linkGoLogin">Sign In</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 3: FORGOT PASSWORD & RESET TOKEN WORKFLOW
+           ===================================================================== -->
+      <section class="tab-content" id="tab-forgot-password">
+        <div class="auth-page-container">
+          <div class="card auth-card">
+            <div class="auth-header">
+              <div class="brand-logo" style="width:48px; height:48px; margin:0 auto 12px; font-size:1.4rem;">&lt;/&gt;</div>
+              <h2>Password Recovery</h2>
+              <p>Request a secure single-use reset token and update your password.</p>
+            </div>
+
+            <!-- Step 1: Request Reset Token -->
+            <form id="formRequestResetToken" class="form-grid">
+              <div class="form-group">
+                <label for="forgotEmail">Account Email Address</label>
+                <input type="email" id="forgotEmail" class="form-input" placeholder="developer@domain.com" required>
+              </div>
+
+              <div id="forgotFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary btn-block" id="btnForgotSubmit">
+                <span>Generate Reset Token</span>
+              </button>
+            </form>
+
+            <!-- Step 2: Apply Reset Token (Revealed after request or directly accessible) -->
+            <div class="divider-text" style="margin:24px 0;"><span>OR APPLY RESET TOKEN</span></div>
+
+            <form id="formApplyResetToken" class="form-grid">
+              <div class="form-group">
+                <label for="resetTokenInput">Single-Use Reset Token (15-Minute Expiry)</label>
+                <input type="text" id="resetTokenInput" class="form-input font-mono" placeholder="Paste generated token here" required>
+              </div>
+
+              <div class="form-group">
+                <label for="resetNewPassword">New Password</label>
+                <input type="password" id="resetNewPassword" class="form-input" placeholder="••••••••" required minlength="6">
+              </div>
+
+              <div class="form-group">
+                <label for="resetConfirmPassword">Confirm New Password</label>
+                <input type="password" id="resetConfirmPassword" class="form-input" placeholder="••••••••" required minlength="6">
+              </div>
+
+              <div id="resetFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-secondary btn-block" id="btnApplyResetSubmit">
+                <span>Set New Password</span>
+              </button>
+            </form>
+
+            <div class="auth-footer">
+              <p>Remember your password? <a href="#login" class="auth-link">Back to Sign In</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 4: USER DASHBOARD
+           ===================================================================== -->
+      <section class="tab-content active" id="tab-user-dashboard">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Dashboard</h1>
+            <p class="page-subtitle">Overview of your code health, recent analyses, and security posture.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary" id="btnDashNewScan">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>New Analysis</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 KPI Summary Cards -->
+        <div class="kpi-grid">
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(37,99,235,0.15); color:var(--primary);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">TOTAL ANALYSES</div>
+              <div class="kpi-val" id="dashTotalScans">0</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">AVERAGE HEALTH</div>
+              <div class="kpi-val" id="dashAvgHealth">--</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(239,68,68,0.15); color:var(--danger);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">ERRORS FOUND</div>
+              <div class="kpi-val" id="dashTotalErrors">0</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(245,158,11,0.15); color:var(--warning);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">WARNINGS</div>
+              <div class="kpi-val" id="dashTotalWarnings">0</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(124,58,237,0.15); color:var(--purple-accent);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">SECURITY RISKS</div>
+              <div class="kpi-val" id="dashTotalSecurity">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Launch Workbench -->
+        <div class="grid-2col" style="margin-bottom:24px;">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Quick Actions</h3>
+            </div>
+            <div class="action-tiles-grid">
+              <button class="action-tile" id="tileGoAnalyzer">
+                <div class="action-tile-icon" style="color:var(--primary);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></div>
+                <div class="action-tile-text">
+                  <strong>Code Analyzer</strong>
+                  <span>Paste or upload code for full static diagnostics</span>
+                </div>
+              </button>
+              <button class="action-tile" id="tileGoSecurity">
+                <div class="action-tile-icon" style="color:var(--purple-accent);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></div>
+                <div class="action-tile-text">
+                  <strong>Security Scanner</strong>
+                  <span>Identify injection, XSS, and memory safety flaws</span>
+                </div>
+              </button>
+              <button class="action-tile" id="tileGoLanguages">
+                <div class="action-tile-icon" style="color:var(--success);"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line></div>
+                <div class="action-tile-text">
+                  <strong>Language Support</strong>
+                  <span>Browse rules and supported capabilities</span>
+                </div>
+              </button>
+              <button class="action-tile" id="tileGoHistory">
+                <div class="action-tile-icon" style="color:var(--warning);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></div>
+                <div class="action-tile-text">
+                  <strong>Analysis History</strong>
+                  <span>Reopen past analyses and export audit reports</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Platform System Status Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">System Status</h3>
+              <span class="badge badge-success">Online</span>
+            </div>
+            <div style="font-size:0.85rem; color:var(--text-muted); line-height:1.6;">
+              <p>CodeInsight analyzes code in-memory using pure static lexers and syntax tokenizers with zero network transmission of source files.</p>
+              <div style="margin-top:14px; display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-glass); padding-bottom:6px;">
+                  <span>Engine Speed:</span>
+                  <strong style="color:var(--text-main);">&lt; 15ms / file</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-glass); padding-bottom:6px;">
+                  <span>Supported Languages:</span>
+                  <strong style="color:var(--text-main);">7 Languages</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--border-glass); padding-bottom:6px;">
+                  <span>Remediation Workflow:</span>
+                  <strong style="color:var(--success);">Pre-Fix Verification &amp; Reversible Undo</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Database Mode:</span>
+                  <strong style="color:var(--text-main);">Hybrid Mongoose &amp; Local Persistence</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Analyses Table -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Recent Analyses</h3>
+              <p style="font-size:0.8rem; color:var(--text-muted);">Your latest code inspection records.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" id="btnDashViewAllHistory">View All History</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>DATE &amp; TIME</th>
+                  <th>LANGUAGE</th>
+                  <th>HEALTH SCORE</th>
+                  <th>FINDINGS</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody id="dashRecentHistoryTbody">
+                <tr><td colspan="5" class="table-empty">No analysis records found. Run your first analysis above!</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 5: CODE ANALYZER (CORE WORKBENCH)
+           ===================================================================== -->
+      <section class="tab-content" id="tab-analyzer">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Code Analyzer</h1>
+            <p class="page-subtitle">Paste code or upload project archives for real-time static syntax, quality, and security checks.</p>
+          </div>
+          <div class="header-actions">
+            <!-- Upload Project / ZIP -->
+            <label class="btn btn-secondary" for="analyzerFileInput" title="Upload Source File or ZIP Archive">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span>Upload File / ZIP</span>
+            </label>
+            <input type="file" id="analyzerFileInput" accept=".js,.py,.ts,.html,.css,.java,.cpp,.c,.zip" style="display:none;">
+
+            <button class="btn btn-ghost" id="btnClearCode" title="Clear Code Editor">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span>Clear</span>
+            </button>
+            <button class="btn btn-ghost" id="btnCopyCode" title="Copy Code to Clipboard">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+            <button class="btn btn-ghost" id="btnFormatCode" title="Format &amp; Beautify Code Indentation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+              <span>Format</span>
+            </button>
+            <button class="btn btn-secondary btn-lg" id="btnRunAnalysis" title="Run fast static diagnostic checks">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Analyze Code</span>
+            </button>
+            <button class="btn btn-glow-purple btn-lg" id="btnAiAutoFix" title="AI Review &amp; Generate Complete Fixed Code">
+              <span class="sparkle-icon" style="font-size:1.1rem;">✨</span>
+              <span>AI Auto-Fix &amp; Analyze</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Analyzer Controls Bar -->
+        <div class="card" style="padding:16px 20px; margin-bottom:16px;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;">
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <label for="analyzerLangSelect" style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Language:</label>
+                <select id="analyzerLangSelect" class="form-select">
+                  <option value="javascript">JavaScript (ES6+)</option>
+                  <option value="python">Python 3</option>
+                  <option value="typescript">TypeScript</option>
+                  <option value="html">HTML5</option>
+                  <option value="css">CSS3</option>
+                  <option value="java">Java</option>
+                  <option value="c_cpp">C / C++</option>
+                </select>
+              </div>
+
+              <button class="btn btn-secondary btn-sm" id="btnAutoDetectLang" title="Auto-detect language from code structure">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                <span>Auto-Detect</span>
+              </button>
+
+              <div style="display:flex; align-items:center; gap:8px;">
+                <label for="analyzerPresetSelect" style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Presets:</label>
+                <select id="analyzerPresetSelect" class="form-select">
+                  <option value="">Load Sample Snippet...</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Stats & Status -->
+            <div style="display:flex; align-items:center; gap:16px; font-size:0.8rem; color:var(--text-muted);">
+              <span id="editorStatsLines">Lines: 1</span>
+              <span id="editorStatsChars">Chars: 0</span>
+              <span id="analyzerStatusPill" class="badge badge-info">Ready</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Editor Surface -->
+        <div class="card editor-card">
+          <div class="editor-header">
+            <div class="editor-dots">
+              <span class="editor-dot red"></span>
+              <span class="editor-dot yellow"></span>
+              <span class="editor-dot green"></span>
+            </div>
+            <div class="editor-filename" id="editorCurrentFilename">snippet.js</div>
+            <div style="font-size:0.75rem; color:var(--text-dim);">UTF-8 Source Buffer</div>
+          </div>
+
+          <div class="editor-workspace">
+            <div class="editor-gutter" id="editorGutter">
+              <div class="gutter-line">1</div>
+            </div>
+            <textarea id="analyzerCodeInput" class="editor-textarea" spellcheck="false" placeholder="// Paste source code here, or choose a preset sample above..."></textarea>
+          </div>
+        </div>
+
+        <!-- AI-Powered Code Review & Automated Repair Assistant -->
+        <div class="card" id="aiReviewCard" style="margin-top:16px; padding:20px; border:1px solid rgba(124,58,237,.35); background:linear-gradient(135deg, rgba(124,58,237,.09), rgba(37,99,235,.04));">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:220px;">
+              <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:6px;">AI-Powered Code Review &amp; Automated Repair Assistant</h3>
+              <p style="font-size:.86rem; color:var(--text-muted); margin:0;">Analyzes syntax, bugs, security vulnerabilities, and generates a complete, clean, repaired version of your code.</p>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-primary" id="btnAiReview" type="button">
+                <span>Review &amp; Generate Fixed Code</span>
+              </button>
+            </div>
+          </div>
+          <div id="aiReviewStatus" role="status" style="display:none; margin-top:14px; padding:12px; border-radius:10px; background:var(--bg-secondary, rgba(0,0,0,.12)); font-size:.88rem;"></div>
+          <div id="aiReviewOutput" style="display:none; margin-top:14px;">
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+              <span class="badge badge-info" id="aiReviewMode">RULE-BASED</span>
+              <strong id="aiReviewSummary" style="font-size:.9rem;"></strong>
+            </div>
+            <div id="aiReviewFindings" style="display:grid; gap:8px;"></div>
+            <div id="aiCorrectedCodeWrap" style="margin-top:16px; border-top:1px solid var(--border-glass); padding-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                <label for="aiCorrectedCode" style="font-weight:800; font-size:0.95rem; color:var(--text-main); margin:0; display:flex; align-items:center; gap:8px;">
+                  <span>✨ Repaired &amp; Clean Code</span>
+                  <span class="badge badge-success">Production Ready</span>
+                </label>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <button class="btn btn-secondary btn-sm copy-feedback-btn" id="btnCopyAiCode" type="button">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copy Fixed Code</span>
+                  </button>
+                  <button class="btn btn-secondary btn-sm" id="btnDownloadAiCode" type="button">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download</span>
+                  </button>
+                  <button class="btn btn-glow-emerald btn-sm" id="btnApplyAiCode" type="button">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Apply to Editor &amp; Rescan</span>
+                  </button>
+                </div>
+              </div>
+              <textarea id="aiCorrectedCode" spellcheck="false" style="width:100%; min-height:220px; resize:vertical; font-family:var(--font-mono, monospace); font-size:.85rem; padding:12px; border-radius:10px; border:1px solid rgba(16,185,129,.35); background:var(--bg-primary, #0B1220); color:var(--text-main); line-height:1.55;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analyzer Status Notice Box -->
+        <div id="analyzerNoticeBox" class="card" style="display:none; padding:14px 18px; margin-top:16px;"></div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 6: ANALYSIS RESULTS (DIAGNOSTIC WORKBENCH)
+           ===================================================================== -->
+      <section class="tab-content" id="tab-results">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Analysis Results</h1>
+            <p class="page-subtitle">Grouped findings, severity explanations, and line-highlighted source inspection.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-secondary btn-sm" id="btnExportMarkdown">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Export Report</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" id="btnExportCsv">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>Export CSV</span>
+            </button>
+            <button class="btn btn-primary btn-sm" id="btnResultsGoSuggestions">
+              <span>View Code Suggestions</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Health Score & Metric Banner -->
+        <div class="card results-banner-card">
+          <div class="results-score-col">
+            <div class="score-circle" id="resultsScoreCircle">
+              <div class="score-number" id="resultsScoreVal">--</div>
+              <div class="score-grade" id="resultsGradeVal">--</div>
+            </div>
+            <div class="score-meta">
+              <div class="score-title" id="resultsStatusTitle">No active analysis</div>
+              <div class="score-subtitle" id="resultsStatusSubtitle">Run an analysis in the Code Analyzer to inspect diagnostic findings.</div>
+            </div>
+          </div>
+
+          <div class="results-metric-pills">
+            <div class="metric-pill metric-errors">
+              <span class="metric-num" id="resultsCountErrors">0</span>
+              <span class="metric-lbl">ERRORS</span>
+            </div>
+            <div class="metric-pill metric-warnings">
+              <span class="metric-num" id="resultsCountWarnings">0</span>
+              <span class="metric-lbl">WARNINGS</span>
+            </div>
+            <div class="metric-pill metric-quality">
+              <span class="metric-num" id="resultsCountQuality">0</span>
+              <span class="metric-lbl">QUALITY</span>
+            </div>
+            <div class="metric-pill metric-security">
+              <span class="metric-num" id="resultsCountSecurity">0</span>
+              <span class="metric-lbl">SECURITY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results View Mode Switcher -->
+        <div class="results-view-mode-bar" style="margin: 20px 0 16px;">
+          <div class="results-mode-tabs">
+            <button class="res-mode-tab active" id="btnModeRepairedCode" data-mode="repaired" type="button">
+              <span class="sparkle-icon">✨</span>
+              <span>Fixed &amp; Repaired Code</span>
+              <span class="badge badge-success" id="resRepairedBadge">Production Ready</span>
+            </button>
+            <button class="res-mode-tab" id="btnModeDiagnostics" data-mode="diagnostics" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>Diagnostic Findings &amp; Errors (<span id="resFindingsCountTab">0</span>)</span>
+            </button>
+            <button class="res-mode-tab" id="btnModeDiff" data-mode="diff" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <span>Side-by-Side Diff</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Automated Code Repair & 1-Click Fix Banner -->
+        <div id="resultsAutoFixBanner" class="repair-banner" style="display:none;">
+          <div class="repair-banner-info">
+            <div style="font-size:1.3rem;">✨</div>
+            <div>
+              <div style="font-weight:800; font-size:0.95rem; display:flex; align-items:center; gap:8px;">
+                <span>Automated Code Repair Generated</span>
+                <span class="score-gain-badge" id="resultsScoreGainBadge">+30 pts</span>
+              </div>
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;" id="resultsAutoFixDesc">
+                CodeInsight examined and repaired syntax, security risks, and poor practices into working code.
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <button class="btn btn-secondary btn-sm" id="btnResultsToggleDiff" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <span>Compare Fixed Code</span>
+            </button>
+            <button class="btn btn-secondary btn-sm copy-feedback-btn" id="btnResultsCopyFixed" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy Fixed Code</span>
+            </button>
+            <button class="btn btn-glow-emerald btn-sm" id="btnResultsApplyAutoFix" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Apply to Editor &amp; Rescan</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 1: FIXED & REPAIRED CODE (PRIMARY VIEW)
+             ========================================== -->
+        <div id="resultsViewRepaired" class="results-view-panel active">
+          <div class="card" style="padding:0; overflow:hidden; border-radius:var(--radius-md); border:1px solid rgba(16,185,129,0.3); margin-bottom:16px;">
+            <div class="editor-header" style="background:rgba(16,185,129,0.08); border-bottom:1px solid rgba(16,185,129,0.2);">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span class="editor-dot green"></span>
+                <strong style="font-size:0.92rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                  <span>✨ Fully Repaired &amp; Clean Working Code</span>
+                  <span class="badge badge-success">Production Ready</span>
+                </strong>
+                <span class="badge badge-info" id="repairedCodeLangBadge">JavaScript</span>
+              </div>
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <button class="btn btn-secondary btn-sm copy-feedback-btn" id="btnRepairedMainCopy" type="button">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>Copy Code</span>
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btnRepairedMainDownload" type="button">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  <span>Download File</span>
+                </button>
+                <button class="btn btn-glow-emerald btn-sm" id="btnRepairedMainApply" type="button">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Apply to Editor &amp; Verify</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Repaired Code Area -->
+            <div class="editor-workspace" style="min-height:300px; max-height:600px;">
+              <textarea id="resultsMainRepairedTextarea" class="editor-textarea" spellcheck="false" style="font-family:var(--font-mono); font-size:0.88rem; line-height:1.6; padding:16px;"></textarea>
+            </div>
+          </div>
+
+          <!-- Optimization Changelog & Improvements Breakdown -->
+          <div class="card" id="resultsChangelogCard" style="padding:18px 20px; margin-bottom:16px;">
+            <div class="card-header" style="margin-bottom:12px; padding:0; border:none;">
+              <h3 class="card-title" style="font-size:1.05rem; display:flex; align-items:center; gap:8px;">
+                <span>✨ Fixes &amp; Optimizations Applied</span>
+                <span class="score-gain-badge" id="changelogScoreBadge">+30 pts</span>
+              </h3>
+            </div>
+            <div id="resultsChangelogList" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Populated dynamically with each specific fix -->
+              <div style="font-size:0.85rem; color:var(--text-muted);">No fixes required! Your code was already clean and error-free.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 2: SIDE-BY-SIDE DIFF COMPARISON
+             ========================================== -->
+        <div id="resultsViewDiff" class="results-view-panel">
+          <div class="card" style="margin-bottom:16px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+              <div style="font-weight:800; font-size:0.9rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                <span>Side-by-Side Code Comparison: Original vs Fixed</span>
+                <span class="badge badge-info">Live Auto-Repair</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary btn-sm copy-feedback-btn" id="btnDiffCopyFixed" type="button">Copy Fixed</button>
+                <button class="btn btn-glow-emerald btn-sm" id="btnDiffApplyFixed" type="button">Apply to Editor</button>
+              </div>
+            </div>
+            <div class="diff-split-view">
+              <div class="diff-panel diff-panel-orig">
+                <div class="diff-panel-header">
+                  <span>ORIGINAL CODE (WITH ISSUES)</span>
+                  <span class="badge badge-danger">Before</span>
+                </div>
+                <textarea id="resultsDiffOrigCode" class="diff-code-editor" readonly spellcheck="false"></textarea>
+              </div>
+              <div class="diff-panel diff-panel-fixed">
+                <div class="diff-panel-header">
+                  <span>REPAIRED CODE (CLEAN &amp; FIXED)</span>
+                  <span class="badge badge-success">Repaired</span>
+                </div>
+                <textarea id="resultsDiffFixedCode" class="diff-code-editor" spellcheck="false"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PANEL 3: DIAGNOSTIC FINDINGS & DETAILS
+             ========================================== -->
+        <div id="resultsViewDiagnostics" class="results-view-panel">
+          <!-- Filter Navigation Pills -->
+          <div class="results-filter-bar">
+            <button class="filter-btn active" data-filter="all">All Findings (<span id="filterAllCount">0</span>)</button>
+            <button class="filter-btn" data-filter="error">Errors (<span id="filterErrorCount">0</span>)</button>
+            <button class="filter-btn" data-filter="warning">Warnings (<span id="filterWarningCount">0</span>)</button>
+            <button class="filter-btn" data-filter="quality">Quality (<span id="filterQualityCount">0</span>)</button>
+            <button class="filter-btn" data-filter="security">Security (<span id="filterSecurityCount">0</span>)</button>
+          </div>
+
+          <!-- 2-Column Findings Layout -->
+          <div class="grid-2col results-workbench">
+            <!-- Left: Findings List -->
+            <div class="findings-list-col">
+              <div id="findingsContainer" class="findings-scroll">
+                <div class="card table-empty">No findings yet. Run an analysis above.</div>
+              </div>
+            </div>
+
+            <!-- Right: Finding Details & Line-Highlighted Code Viewer -->
+            <div class="finding-detail-col">
+              <!-- Selected Finding Overview -->
+              <div class="card" id="findingDetailCard">
+                <div class="finding-detail-header">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="badge" id="detailBadgeSeverity">INFO</span>
+                    <span class="font-mono" style="font-size:0.8rem; color:var(--text-muted);" id="detailRuleId">--</span>
+                  </div>
+                  <div class="font-mono" style="font-size:0.8rem; color:var(--text-muted);" id="detailLocation">Line --</div>
+                </div>
+
+                <h3 class="detail-title" id="detailTitle">Select a finding to inspect</h3>
+                <p class="detail-desc" id="detailExplanation">Click on any diagnostic item on the left to see its beginner-friendly explanation, code context, and recommended remediation.</p>
+
+                <div id="detailExtraFields" style="display:none; margin-top:14px; display:flex; flex-direction:column; gap:10px;">
+                  <div class="detail-box">
+                    <div class="detail-box-label">WHY IT MATTERS</div>
+                    <div class="detail-box-val" id="detailWhyItMatters"></div>
+                  </div>
+                  <div class="detail-box">
+                    <div class="detail-box-label">LEARNING CONCEPT</div>
+                    <div class="detail-box-val" id="detailLearningConcept"></div>
+                  </div>
+                  <div class="detail-box remediation-box" id="detailRemediationBox" style="display:none;">
+                    <div class="detail-box-label" style="color:var(--success);">PROPOSED REMEDIATION</div>
+                    <div class="detail-box-val" id="detailRemediationText"></div>
+                    <button class="btn btn-primary btn-sm" id="btnDetailApplyFix" style="margin-top:10px;">
+                      <span>Preview &amp; Apply Proposed Fix</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Synchronized Code Viewer with Line Highlighting -->
+              <div class="card" style="margin-top:16px;">
+                <div class="editor-header">
+                  <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Source Inspection (Original)</div>
+                  <div style="font-size:0.75rem; color:var(--text-dim);" id="codeViewerLanguage">JavaScript</div>
+                </div>
+                <div class="code-viewer-wrap" id="resultsCodeViewer">
+                  <!-- Populated dynamically with numbered and highlighted lines -->
+                  <div style="padding:16px; color:var(--text-dim); font-size:0.85rem;">Source code view will appear here upon analysis.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 7: SECURITY SCANNER
+           ===================================================================== -->
+      <section class="tab-content" id="tab-security-scanner">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Security Scanner</h1>
+            <p class="page-subtitle">Real-time vulnerability detection powered by native static security rules.</p>
+          </div>
+        </div>
+
+        <div class="card" style="padding:20px; margin-bottom:20px; background:linear-gradient(135deg, rgba(124,58,237,0.15), rgba(37,99,235,0.08)); border-color:rgba(124,58,237,0.3);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <h3 style="font-size:1.2rem; font-weight:800; color:var(--text-main); margin-bottom:4px;">Security Audit Posture</h3>
+              <p style="font-size:0.85rem; color:var(--text-muted);">Direct static pattern inspection covering OWASP Top 10 risks: Injection, XSS, Buffer Overflows, and Insecure Defaults.</p>
+            </div>
+            <div style="display:flex; gap:14px;">
+              <div class="badge badge-danger" style="font-size:0.9rem; padding:8px 14px;">
+                Critical: <span id="secCriticalCount">0</span>
+              </div>
+              <div class="badge badge-warning" style="font-size:0.9rem; padding:8px 14px;">
+                High: <span id="secHighCount">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Findings Cards Grid -->
+        <div id="securityCardsContainer" class="security-grid">
+          <div class="card table-empty" style="grid-column:1/-1;">No security vulnerabilities detected in the current code buffer.</div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 8: CODE SUGGESTIONS (WITH DIFF PREVIEW & REVERSIBLE UNDO)
+           ===================================================================== -->
+      <section class="tab-content" id="tab-suggestions">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Code Suggestions &amp; Remediation</h1>
+            <p class="page-subtitle">Interactive quality enhancements with before/after diff verification, confirmation, and instant undo.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-glow-emerald" id="btnApplyAllSuggestions" style="display:none;" title="Apply all safe fixes to your code in one click">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Apply All Fixes</span>
+            </button>
+            <!-- Undo Stack Button -->
+            <button class="btn btn-secondary" id="btnUndoFix" disabled title="Revert last applied code remediation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              <span>Undo Last Fix</span>
+              <span class="sidebar-pill" id="undoStackCount" style="margin-left:6px; background:rgba(255,255,255,0.1);">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Suggestions List -->
+        <div id="suggestionsContainer" class="suggestions-list">
+          <div class="card table-empty">No automated suggestions available for the current code buffer.</div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 9: LANGUAGE SUPPORT CATALOG
+           ===================================================================== -->
+      <section class="tab-content" id="tab-languages">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Language Support Matrix</h1>
+            <p class="page-subtitle">Accurate breakdown of analysis engines, rule coverage, and explicit static limitations.</p>
+          </div>
+        </div>
+
+        <div class="languages-grid" id="languagesCatalogGrid">
+          <!-- Populated dynamically from /api/languages -->
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 10: ANALYSIS HISTORY
+           ===================================================================== -->
+      <section class="tab-content" id="tab-history">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Analysis History</h1>
+            <p class="page-subtitle">Your personal inspection archive. Reopen previous results or export records.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-ghost btn-sm" id="btnClearHistoryBtn" style="color:var(--danger);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              <span>Clear History</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>TIMESTAMP</th>
+                  <th>LANGUAGE</th>
+                  <th>HEALTH SCORE</th>
+                  <th>ERRORS</th>
+                  <th>WARNINGS</th>
+                  <th>SECURITY</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="userHistoryTbody">
+                <tr><td colspan="7" class="table-empty">Loading history records...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 11: USER PROFILE
+           ===================================================================== -->
+      <section class="tab-content" id="tab-user-profile">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Profile</h1>
+            <p class="page-subtitle">Manage your personal account details, role permissions, and activity summary.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Profile Summary Card -->
+          <div class="card">
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+              <div class="profile-big-avatar" id="profAvatarDisplay">GU</div>
+              <div>
+                <h3 id="profNameDisplay" style="font-size:1.3rem; font-weight:800;">Guest User</h3>
+                <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+                  <span id="profEmailDisplay" style="font-size:0.85rem; color:var(--text-muted);">guest@codeinsight.local</span>
+                  <span class="role-pill role-user" id="profRoleBadge">USER</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--border-glass); padding-top:16px; display:flex; flex-direction:column; gap:10px; font-size:0.85rem;">
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Account ID:</span>
+                <span class="font-mono" id="profUserId">--</span>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Member Since:</span>
+                <span id="profCreatedDate">--</span>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Total Analyses:</span>
+                <strong id="profTotalScans" style="color:var(--text-main);">0</strong>
+              </div>
+            </div>
+
+            <button class="btn btn-secondary btn-block" id="btnProfLogout" style="margin-top:24px; color:var(--danger); border-color:rgba(239,68,68,0.3);">
+              <span>Sign Out of Session</span>
+            </button>
+          </div>
+
+          <!-- Edit Profile Form -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Edit Profile</h3>
+            </div>
+            <form id="formEditProfile" class="form-grid">
+              <div class="form-group">
+                <label for="profEditName">Full Name</label>
+                <input type="text" id="profEditName" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label for="profEditAvatar">Avatar Initials / Icon</label>
+                <input type="text" id="profEditAvatar" class="form-input" maxlength="4" placeholder="e.g. JD">
+              </div>
+
+              <div class="form-group">
+                <label for="profEditBio">Bio / Organization</label>
+                <textarea id="profEditBio" class="form-textarea" rows="3" placeholder="Software developer or computer science researcher"></textarea>
+              </div>
+
+              <div id="profFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary" id="btnSaveProfile">
+                <span>Save Profile Changes</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 12: USER SETTINGS
+           ===================================================================== -->
+      <section class="tab-content" id="tab-user-settings">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Settings</h1>
+            <p class="page-subtitle">Configure analysis preferences and manage account security.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Preferences Form -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Analysis Preferences</h3>
+            </div>
+            <form id="formUserSettings" class="form-grid">
+              <div class="form-group">
+                <label for="setTheme">Interface Theme</label>
+                <select id="setTheme" class="form-select">
+                  <option value="dark">Dark Obsidian (Recommended)</option>
+                  <option value="cyberpunk">Midnight Cyberpunk (Neon)</option>
+                  <option value="slate">Slate Modern Pro</option>
+                  <option value="light">Light Porcelain</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="setDefaultLang">Default Analysis Language</label>
+                <select id="setDefaultLang" class="form-select">
+                  <option value="javascript">JavaScript</option>
+                  <option value="python">Python</option>
+                  <option value="typescript">TypeScript</option>
+                  <option value="html">HTML</option>
+                  <option value="css">CSS</option>
+                  <option value="java">Java</option>
+                  <option value="c_cpp">C / C++</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                  <input type="checkbox" id="setAutoDetect" style="width:18px; height:18px;">
+                  <span>Automatically detect code language on paste</span>
+                </label>
+              </div>
+
+              <div id="settingsFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary" id="btnSaveSettings">
+                <span>Save Preferences</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Security: Change Password Form -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Change Password</h3>
+            </div>
+            <form id="formChangePassword" class="form-grid">
+              <div class="form-group">
+                <label for="pwdCurrent">Current Password</label>
+                <input type="password" id="pwdCurrent" class="form-input" required autocomplete="current-password">
+              </div>
+
+              <div class="form-group">
+                <label for="pwdNew">New Password (Min. 6 chars)</label>
+                <input type="password" id="pwdNew" class="form-input" required minlength="6" autocomplete="new-password">
+              </div>
+
+              <div class="form-group">
+                <label for="pwdConfirm">Confirm New Password</label>
+                <input type="password" id="pwdConfirm" class="form-input" required minlength="6" autocomplete="new-password">
+              </div>
+
+              <div id="pwdFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-secondary" id="btnChangePasswordSubmit">
+                <span>Update Password</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 13: ABOUT / HELP
+           ===================================================================== -->
+      <section class="tab-content" id="tab-about">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">About CodeInsight &amp; Help</h1>
+            <p class="page-subtitle">Architecture overview, diagnostic capabilities, and pure static analysis boundaries.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <h2 style="font-size:1.4rem; font-weight:800; margin-bottom:8px;">Platform Mission</h2>
+          <p style="color:var(--text-muted); line-height:1.7;">
+            CodeInsight is a high-speed, multi-language static code analysis platform designed to teach clean code patterns, catch beginner syntax traps, flag security risks, and provide actionable, safe remediation with side-by-side diff confirmation.
+          </p>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:12px; color:var(--primary);">How It Works</h3>
+            <ol style="font-size:0.85rem; color:var(--text-muted); line-height:1.8; margin-left:18px;">
+              <li><strong>Input Code:</strong> Paste code directly into the editor or upload single files and ZIP archives.</li>
+              <li><strong>Select Language:</strong> Pick from 7 supported languages or use the auto-detect engine.</li>
+              <li><strong>In-Memory Analysis:</strong> Pure lexical parser scans syntax, logic patterns, and security vectors in &lt; 15ms.</li>
+              <li><strong>Review Diagnostics:</strong> Findings are displayed with line numbers, severity, and plain-English explanations.</li>
+              <li><strong>Reversible Remediation:</strong> Preview before/after diffs, apply proposed fixes with validation, or undo cleanly.</li>
+            </ol>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:12px; color:var(--warning);">Static Analysis Boundaries</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.7; margin-bottom:12px;">
+              CodeInsight operates <strong>strictly statically</strong> without compiling source code or executing untrusted code in a runtime sandbox:
+            </p>
+            <ul style="font-size:0.85rem; color:var(--text-muted); line-height:1.7; margin-left:18px;">
+              <li>Lexical checks detect syntax delimiters and token patterns, not dynamic runtime values.</li>
+              <li>Security scanning detects dangerous APIs (e.g. <code>eval</code>, <code>innerHTML</code>, <code>gets</code>), not runtime network vulnerabilities.</li>
+              <li>No source code is persisted beyond your authenticated session unless explicitly recorded to your history.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 14: ADMIN DASHBOARD (RBAC ONLY)
+           ===================================================================== -->
+      <section class="tab-content" id="tab-admin-dashboard">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Admin Dashboard</h1>
+            <p class="page-subtitle">Real-time system health, user metrics, and global platform analysis telemetry.</p>
+          </div>
+          <div class="header-actions">
+            <span class="badge badge-purple">Administrator Privileges</span>
+          </div>
+        </div>
+
+        <!-- 4 Global Metric Cards -->
+        <div class="kpi-grid">
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(37,99,235,0.15); color:var(--primary);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">TOTAL REGISTERED USERS</div>
+              <div class="kpi-val" id="adminMetricUsers">0</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(16,185,129,0.15); color:var(--success);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">TOTAL PLATFORM ANALYSES</div>
+              <div class="kpi-val" id="adminMetricScans">0</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(124,58,237,0.15); color:var(--purple-accent);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">SECURITY RISKS DETECTED</div>
+              <div class="kpi-val" id="adminMetricSecurity">0</div>
+            </div>
+          </div>
+
+          <div class="card kpi-card">
+            <div class="kpi-icon" style="background:rgba(245,158,11,0.15); color:var(--warning);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+            </div>
+            <div class="kpi-info">
+              <div class="kpi-label">AVG PLATFORM SCORE</div>
+              <div class="kpi-val" id="adminMetricScore">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Quick Actions & Activity -->
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Administrative Actions</h3>
+            </div>
+            <div class="action-tiles-grid">
+              <button class="action-tile" id="adminTileUsers">
+                <div class="action-tile-icon" style="color:var(--primary);"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg></div>
+                <div class="action-tile-text">
+                  <strong>User Directory</strong>
+                  <span>Manage roles, suspend accounts, and view user metrics</span>
+                </div>
+              </button>
+              <button class="action-tile" id="adminTileLogs">
+                <div class="action-tile-icon" style="color:var(--purple-accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></div>
+                <div class="action-tile-text">
+                  <strong>Analysis Logs</strong>
+                  <span>Audit system activity with automatic secret redaction</span>
+                </div>
+              </button>
+              <button class="action-tile" id="adminTileReports">
+                <div class="action-tile-icon" style="color:var(--success);"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></div>
+                <div class="action-tile-text">
+                  <strong>Export Reports</strong>
+                  <span>Download CSV telemetry and vulnerability summaries</span>
+                </div>
+              </button>
+              <button class="action-tile" id="adminTileSettings">
+                <div class="action-tile-icon" style="color:var(--warning);"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect></div>
+                <div class="action-tile-text">
+                  <strong>System Settings</strong>
+                  <span>Configure platform upload limits and registration gates</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Audit Log Stream</h3>
+            </div>
+            <div id="adminAuditStream" class="audit-stream">
+              <div style="padding:12px; font-size:0.8rem; color:var(--text-dim);">Loading audit events...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 15: ADMIN PROFILE
+           ===================================================================== -->
+      <section class="tab-content" id="tab-admin-profile">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Admin Profile</h1>
+            <p class="page-subtitle">Administrator credentials, root privilege governance, and audit metadata.</p>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+              <div class="profile-big-avatar" style="border-color:var(--purple-accent); color:var(--purple-accent);" id="adminProfAvatar">AD</div>
+              <div>
+                <h3 id="adminProfName" style="font-size:1.3rem; font-weight:800;">Administrator</h3>
+                <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+                  <span id="adminProfEmail" style="font-size:0.85rem; color:var(--text-muted);">admin@codeinsight.local</span>
+                  <span class="role-pill role-admin">ADMINISTRATOR</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--border-glass); padding-top:16px; display:flex; flex-direction:column; gap:10px; font-size:0.85rem;">
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Privilege Level:</span>
+                <strong style="color:var(--purple-accent);">Full Governance &amp; RBAC Control</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:var(--text-muted);">Lockout Protection:</span>
+                <span class="badge badge-success">Active (Root Admin Protected)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Update Administrator Profile</h3>
+            </div>
+            <form id="formAdminProfile" class="form-grid">
+              <div class="form-group">
+                <label for="adminEditName">Full Name</label>
+                <input type="text" id="adminEditName" class="form-input" required>
+              </div>
+
+              <div class="form-group">
+                <label for="adminEditBio">Role Title / Department</label>
+                <input type="text" id="adminEditBio" class="form-input" placeholder="Lead Security Engineer">
+              </div>
+
+              <div id="adminProfFeedback" class="feedback-msg" style="display:none;"></div>
+
+              <button type="submit" class="btn btn-primary" id="btnSaveAdminProfile">
+                <span>Save Profile Changes</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 16: USER MANAGEMENT (WITH LOCKOUT PROTECTION)
+           ===================================================================== -->
+      <section class="tab-content" id="tab-admin-users">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Management</h1>
+            <p class="page-subtitle">Directory of registered platform users. Manage roles, account status, and permissions.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>USER</th>
+                  <th>EMAIL</th>
+                  <th>ROLE</th>
+                  <th>STATUS</th>
+                  <th>CREATED</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTbody">
+                <tr><td colspan="6" class="table-empty">Loading users...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 17: ANALYSIS LOGS (WITH SECRET REDACTION)
+           ===================================================================== -->
+      <section class="tab-content" id="tab-admin-logs">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Analysis Logs &amp; Audit Trail</h1>
+            <p class="page-subtitle">Global repository analysis records with automated secret and password redaction.</p>
+          </div>
+          <div class="header-actions">
+            <select id="filterLogsLanguage" class="form-select form-select-sm">
+              <option value="">All Languages</option>
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="typescript">TypeScript</option>
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="java">Java</option>
+              <option value="c_cpp">C / C++</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>DATE / TIME</th>
+                  <th>USER</th>
+                  <th>LANGUAGE</th>
+                  <th>HEALTH SCORE</th>
+                  <th>ERRORS</th>
+                  <th>WARNINGS</th>
+                  <th>SECURITY</th>
+                  <th>INSPECT</th>
+                </tr>
+              </thead>
+              <tbody id="adminLogsTbody">
+                <tr><td colspan="8" class="table-empty">Loading platform logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 18: REPORTS & ANALYTICS
+           ===================================================================== -->
+      <section class="tab-content" id="tab-admin-reports">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Reports &amp; Compliance Analytics</h1>
+            <p class="page-subtitle">Platform vulnerability trends and exportable compliance summaries.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-sm" id="btnAdminExportCsv">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Download Platform CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:14px;">Vulnerability Distribution</h3>
+            <div id="reportVulnBreakdown" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Populated dynamically -->
+              <div style="font-size:0.85rem; color:var(--text-muted);">Loading distribution data...</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:14px;">Language Usage Breakdown</h3>
+            <div id="reportLangBreakdown" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Populated dynamically -->
+              <div style="font-size:0.85rem; color:var(--text-muted);">Loading language breakdown...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           VIEW 19: SYSTEM SETTINGS
+           ===================================================================== -->
+      <section class="tab-content" id="tab-admin-settings">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">System Settings</h1>
+            <p class="page-subtitle">Configure global platform behavior, upload quotas, and security controls.</p>
+          </div>
+        </div>
+
+        <div class="card" style="max-width:760px;">
+          <form id="formSystemSettings" class="form-grid">
+            <div class="form-group">
+              <label for="sysPlatformName">Platform Title</label>
+              <input type="text" id="sysPlatformName" class="form-input" value="CodeInsight">
+            </div>
+
+            <div class="form-group">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                <input type="checkbox" id="sysAllowReg" checked style="width:18px; height:18px;">
+                <span>Allow Public User Registrations</span>
+              </label>
+              <div style="font-size:0.8rem; color:var(--text-dim); margin-top:4px;">When unchecked, new user self-registration is closed.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="sysMaxFileSize">Max Upload Archive Size (MB)</label>
+              <input type="number" id="sysMaxFileSize" class="form-input" min="1" max="50" value="15" required>
+            </div>
+
+            <div class="form-group">
+              <label for="sysDefaultLang">Platform Default Language</label>
+              <select id="sysDefaultLang" class="form-select">
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="typescript">TypeScript</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="java">Java</option>
+                <option value="c_cpp">C / C++</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sysSessionTimeout">Session Inactivity Timeout (Minutes)</label>
+              <input type="number" id="sysSessionTimeout" class="form-input" min="5" max="1440" value="60">
+            </div>
+
+            <div id="sysSettingsFeedback" class="feedback-msg" style="display:none;"></div>
+
+            <button type="submit" class="btn btn-primary" id="btnSaveSystemSettings">
+              <span>Save System Settings</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: PROPOSED CODE FIX DIFF PREVIEW
+       ========================================================================= -->
+  <div class="modal-overlay" id="diffPreviewModal" style="display:none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Proposed Fix Preview</h3>
+          <p class="modal-subtitle">Review the before-and-after differences before applying.</p>
+        </div>
+        <button class="modal-close-btn" id="btnCloseDiffModal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="diff-disclaimer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--warning); flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <div>
+            <strong>Proposed Fix Disclaimer:</strong> This fix will replace the specified lines in your editor. A snapshot is recorded on your undo stack, and an automated post-apply validation rescan will execute immediately.
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px; font-size:0.85rem; color:var(--text-muted);" id="diffFindingRule">Rule: --</div>
+
+        <div class="diff-container">
+          <div class="diff-col diff-before">
+            <div class="diff-label">CURRENT CODE</div>
+            <pre class="diff-code" id="diffBeforeCode"></pre>
+          </div>
+          <div class="diff-col diff-after">
+            <div class="diff-label">PROPOSED REPLACEMENT</div>
+            <pre class="diff-code" id="diffAfterCode"></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="btnCancelDiff">Cancel</button>
+        <button class="btn btn-primary" id="btnConfirmApplyFix">
+          <span>Confirm &amp; Apply Fix</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: INSPECT SCAN LOG DETAIL
+       ========================================================================= -->
+  <div class="modal-overlay" id="scanDetailModal" style="display:none;">
+    <div class="modal-card" style="max-width:850px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="scanModalTitle">Analysis Details</h3>
+          <p class="modal-subtitle" id="scanModalSubtitle">Inspection record</p>
+        </div>
+        <button class="modal-close-btn" id="btnCloseScanModal">✕</button>
+      </div>
+
+      <div class="modal-body" style="max-height:65vh; overflow-y:auto;">
+        <div id="scanModalContent">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btnScanModalLoadInAnalyzer">Load Code in Analyzer</button>
+        <button class="btn btn-ghost" id="btnCloseScanModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Application Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Dependencies and local runtime state
+node_modules/
+.env
+.env.*.local
+data.json
+npm-debug.log*
+.DS_Store
+coverage/

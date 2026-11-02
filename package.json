@@ -1,0 +1,28 @@
+{
+  "name": "codeinsight",
+  "version": "2.0.0",
+  "description": "CodeInsight – Multi-Language Static Code Analysis & Diagnostic System",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test.js && node integration-test.js"
+  },
+  "keywords": [
+    "javascript-analysis",
+    "codeinsight",
+    "static-code-analysis",
+    "syntax-checker",
+    "educational-coding-diagnostic"
+  ],
+  "author": "CodeInsight Team",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "mongoose": "^9.11.4"
+  }
+}
